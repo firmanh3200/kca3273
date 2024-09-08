@@ -81,6 +81,19 @@ with st.container(border=True):
             st.dataframe(tabeljk2, hide_index=True, use_container_width=True)
     
     st.subheader("", divider='rainbow')
+    kol2a, kol2b = st.columns(2)
+    dataterpilih = sort_data[(sort_data['namakec'] == pilihkec) & (sort_data['tahun'] == pilihtahun) & (sort_data['semester'] == pilihsem)]
+    with kol2a:
+        trimep = px.treemap(dataterpilih, path=['namakel', 'jenis_kelamin'], 
+                            values='jumlah_penduduk', color_discrete_sequence=warna_options[pilihwarna])
+        with st.container(border=True):
+            st.plotly_chart(trimep, use_container_width=True)
+    with kol2b:
+        bulet = px.sunburst(dataterpilih, path=['namakec', 'namakel', 'jenis_kelamin'], values='jumlah_penduduk')
+        with st.container(border=True):
+            st.plotly_chart(bulet, use_container_width=True)
+        
+    st.subheader("", divider='rainbow')
     st.info(f"Perkembangan Jumlah Penduduk di Kecamatan {pilihkec}")
     datagender['sem'] = datagender['semester'].astype(str) + '-' + datagender['tahun'].astype(str)
     tren_kk = datagender[datagender['namakec'] == pilihkec]
