@@ -15,12 +15,8 @@ data = pd.read_csv(
     dtype={'KODE_KD':'str', 'jumlah_kk':'float',
            'bps_nama_kecamatan':'str', 'bps_desa_kelurahan':'str'}
 )
-#data = data.rename(columns={'KODE_KD':'kodedesa'})
 
 filter_data = data.query("bps_nama_kecamatan == 'CIBEUNYING KIDUL' and tahun == 2023 and semester == 1")
-
-m = folium.Map(location=[-6.914845, 107.609836], zoom_start=11, 
-                          tiles="cartodbpositron")
 
 st.title("Statistik Kota Bandung")
 st.subheader("", divider='rainbow')
