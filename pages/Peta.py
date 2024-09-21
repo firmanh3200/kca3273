@@ -4,7 +4,6 @@ import pandas as pd
 import plotly_express as px
 import folium
 import requests
-from geopy.geocoders import Nominatim
 from folium.plugins import MarkerCluster
 from streamlit_folium import folium_static
 
@@ -23,18 +22,8 @@ data = pd.read_csv(
 
 filter_data = data.query("bps_nama_kecamatan == 'CIBEUNYING KIDUL' and tahun == 2023 and semester == 1")
 
-
-# Inisialisasi geocoder
-geolocator = Nominatim(user_agent="my_geocoder")
-
-# Cari koordinat untuk "pusat kota Bandung"
-location = geolocator.geocode("pusat kota Bandung, Indonesia")
-
-# Ekstrak latitude dan longitude
-latitude = location.latitude
-longitude = location.longitude
-
-m = folium.Map(location=[latitude, longitude], zoom_start=11)
+m = folium.Map(location=[-6.914845, 107.609836], zoom_start=11, 
+                          tiles="cartodbpositron")
 
 st.title("Statistik Kota Bandung")
 st.subheader("", divider='rainbow')
