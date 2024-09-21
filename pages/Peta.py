@@ -2,10 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 import plotly_express as px
-import folium
 import requests
-from folium.plugins import MarkerCluster
-from streamlit_folium import folium_static
 
 st.set_page_config(layout='wide')
 
@@ -43,63 +40,6 @@ with st.container(border=True):
     if tahunterpilih and semterpilih:
         st.subheader(f"Sebaran Kepala Keluarga di Kota Bandung, Semester {semterpilih} Tahun {tahunterpilih}")
 
-        folium.Choropleth(
-            geo_data=geojson_data,
-            name="Kepala Keluarga",
-            data=data[(data['tahun'] == tahunterpilih) & (data['semester'] == semterpilih)],
-            columns=["KODE_KD", "jumlah_kk"],
-            key_on="properties.KODE_KD",
-            fill_color="viridis_r",
-            fill_opacity=0.7,
-            line_opacity=0.2,
-            legend_name="jumlah_kk",
-            hover_data=['properties.KECAMATAN', 'properties.KEL_DESA', 'jumlah_kk']
-        ).add_to(m)
-        folium.LayerControl().add_to(m)
-
-        st.write("""
-        <style>
-        .stContainer {
-            max-height: 600px;
-            overflow: auto;
-        }
-        </style>
-        """, unsafe_allow_html=True)
-        folium_static(m, width=800)
-    
-    st.subheader("", divider='rainbow')
-    # pilihankec = data['bps_nama_kecamatan'].unique()
-    
-    # kecterpilih = st.selectbox("Filter Kecamatan", pilihankec)
-    
-    # if kecterpilih:
-    #     st.subheader(f"Sebaran Kepala Keluarga di Kecamatan {kecterpilih}, Semester {semterpilih} Tahun {tahunterpilih}")
-
-    #     folium.Choropleth(
-    #         geo_data=geojson_data,
-    #         name="Kepala Keluarga",
-    #         data=data[(data['tahun'] == tahunterpilih) & (data['semester'] == semterpilih) & (data['bps_nama_kecamatan'] == kecterpilih)],
-    #         columns=["KODE_KD", "jumlah_kk"],
-    #         key_on="properties.KODE_KD",
-    #         fill_color="viridis_r",
-    #         fill_opacity=0.7,
-    #         line_opacity=0.2,
-    #         legend_name="jumlah_kk",
-    #         hover_data=['properties.KECAMATAN', 'properties.KEL_DESA', 'jumlah_kk']
-    #     ).add_to(m)
-    #     folium.LayerControl().add_to(m)
-
-    #     st.write("""
-    #     <style>
-    #     .stContainer {
-    #         max-height: 600px;
-    #         overflow: auto;
-    #     }
-    #     </style>
-    #     """, unsafe_allow_html=True)
-    #     folium_static(m, width=600)
-    
-    with st.container(border=True):
         fig = px.choropleth_mapbox(
             data_frame=data[(data['tahun'] == tahunterpilih) & (data['semester'] == semterpilih)],
             geojson=geojson_data,
