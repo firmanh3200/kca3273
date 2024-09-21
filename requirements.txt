@@ -4,3 +4,4 @@ openpyxl
 plotly.express
 requests
 folium
+geopy
